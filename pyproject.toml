@@ -1,0 +1,15 @@
+[project]
+name = "newtype"
+description = "mypy NewType test"
+version = "0.0.1"
+
+[build-system]
+build-backend = "mesonpy"
+requires = [
+    "meson-python",
+]
+
+[tool.mypy]
+files = [
+  "src/newtype",
+]
