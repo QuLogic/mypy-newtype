@@ -1,1 +1,1 @@
-from .newtype import *
+from .newtype import foo as foo
