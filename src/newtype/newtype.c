@@ -14,8 +14,24 @@ newtype_foo(PyObject *self, PyObject *obj)
 static int
 newtype_mod_exec(PyObject *module)
 {
+    PyObject *typing_mod = PyImport_ImportModule("typing");
+    if (!typing_mod) {
+        return -1;
+    }
+    PyObject *NewType = PyObject_GetAttrString(typing_mod, "NewType");
+    if (!NewType) {
+        return -1;
+    }
+
     PyObject *int_obj = (PyObject *)&PyLong_Type;
-    return PyModule_AddObjectRef(module, "FooType", int_obj);
+    PyObject *FooType = PyObject_CallFunction(NewType, "sO", "FooType", int_obj);
+    if (!FooType) {
+        return -1;
+    }
+
+    int ret = PyModule_AddObjectRef(module, "FooType", FooType);
+    Py_XDECREF(FooType);
+    return ret;
 }
 
 static PyMethodDef newtype_methods[] = {
